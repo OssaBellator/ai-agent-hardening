@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A practical checklist for hardening repositories used with AI coding agents and MCP tools: credentials, authority, recovery, verification and irreversible actions.">
+<title>AI Coding Agent Repository Hardening Checklist</title>
+<style>
+:root{color-scheme:light dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+body{max-width:800px;margin:0 auto;padding:48px 20px;line-height:1.65}
+h1{font-size:clamp(2rem,6vw,3.2rem);line-height:1.1}
+h2{margin-top:36px}
+li{margin:.55rem 0}
+.callout{border:1px solid color-mix(in srgb,currentColor 25%,transparent);border-radius:12px;padding:18px;margin:24px 0}
+a{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<p><a href="./">← AI Agent Setup & Hardening</a></p>
+<h1>AI Coding Agent Repository Hardening Checklist</h1>
+<p>This checklist is for repositories used with coding agents, MCP servers, automation, deployment CLIs, or other tools that can read files, execute commands, or change remote systems. It is a practical review guide, not a security certification.</p>
+
+<h2>1. Keep secrets out of the repository</h2>
+<ul>
+<li>Do not put API keys, passwords, private keys, recovery phrases, or long-lived tokens in tracked files.</li>
+<li>Keep credential requirements separate from credential values.</li>
+<li>Check generated logs, receipts, screenshots, test fixtures, and cached outputs for accidental secret material.</li>
+</ul>
+
+<h2>2. Separate read authority from write authority</h2>
+<ul>
+<li>A tool that only needs inspection should not automatically receive mutation authority.</li>
+<li>Keep local workspace writes separate from remote writes such as deploys, pushes, messages, charges, or account changes.</li>
+<li>Make high-impact operations explicit rather than relying on ambient shell access.</li>
+</ul>
+
+<h2>3. Bound tool inputs</h2>
+<ul>
+<li>Prefer explicit paths, enumerated modes, validated URLs, and fixed operation shapes over arbitrary command strings.</li>
+<li>Constrain file operations to the intended project root.</li>
+<li>Reject path traversal, unexpected protocols, and unbounded payload sizes.</li>
+</ul>
+
+<h2>4. Verify the exact thing you are about to trust</h2>
+<ul>
+<li>Bind readiness evidence to the current provider/tool version and configuration.</li>
+<li>Treat changed binaries, changed configuration, rotated credentials, or expired checks as reasons to re-verify.</li>
+<li>Do not equate “installed” with “authenticated,” or “authenticated” with “ready for mutation.”</li>
+</ul>
+
+<h2>5. Put irreversible actions behind a distinct gate</h2>
+<ul>
+<li>Deployments, payments, submissions, account mutations, destructive deletes, and other hard-to-reverse actions should have separate authorization.</li>
+<li>Use idempotency keys or durable effect records where retries could otherwise duplicate an external action.</li>
+<li>Record enough non-secret evidence to distinguish prepared work from completed external effects.</li>
+</ul>
+
+<h2>6. Make recovery independent of the current agent session</h2>
+<ul>
+<li>Assume the current chat, process, machine, or local cache can disappear.</li>
+<li>Document where source, state, credentials, and recovery material are restored from.</li>
+<li>Verify backup manifests or checksums before claiming a recovery path works.</li>
+</ul>
+
+<h2>7. Do not auto-resume stale work blindly</h2>
+<ul>
+<li>After restart, re-check current repository state, remote state, credentials, and outstanding external effects.</li>
+<li>Use durable identifiers so a resumed process can tell whether an operation already happened.</li>
+<li>Fail closed when state is ambiguous rather than fabricating success.</li>
+</ul>
+
+<h2>8. Treat test/build success as evidence, not as a universal safety proof</h2>
+<ul>
+<li>Run the repository-appropriate build, type, lint, test, and smoke checks that are actually available.</li>
+<li>Record skipped or unavailable checks rather than silently treating them as green.</li>
+<li>Verify important user-visible or external outcomes independently when practical.</li>
+</ul>
+
+<h2>9. Minimize what leaves the machine</h2>
+<ul>
+<li>Send only the context required for the task to remote models or services.</li>
+<li>Keep private records and secret values out of general logs and public artifacts.</li>
+<li>Prefer redacted metadata and references when full payloads are not required.</li>
+</ul>
+
+<h2>10. End with a usable handoff</h2>
+<ul>
+<li>List what changed, what did not change, and what still requires customer action.</li>
+<li>Document credential locations without copying credential values.</li>
+<li>Include recovery steps, authority boundaries, verification results, and known limitations.</li>
+</ul>
+
+<div class="callout">
+<strong>Want this applied to one repository?</strong>
+<p>The fixed-scope AI Agent Setup & Hardening service is A$149 and covers an intake audit, credential/tool boundaries, recovery basics, verification, and handoff.</p>
+<p><a href="https://buy.stripe.com/9B600d9Mocei2RV8c104801">View checkout</a> · <a href="https://github.com/OssaBellator/ai-agent-hardening/issues/new?template=service-intake.md">Ask a question / start intake</a></p>
+</div>
+</body>
+</html>
