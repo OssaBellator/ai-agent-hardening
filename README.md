@@ -82,6 +82,29 @@ The action requires only `contents: read`; it runs the dependency-free scanner a
 
 Accepted thresholds are `never` (default), `high`, `medium`, and `any`. See [example-workflow.yml](./example-workflow.yml).
 
+
+## Optional GitHub Code Scanning
+
+The action also writes a SARIF 2.1.0 report to `agent-hardening-scan.sarif` and exposes that path as the `sarif-file` output. The scanner itself still needs only `contents: read`.
+
+If you explicitly want findings in GitHub Code Scanning, grant `security-events: write` in your workflow and upload the SARIF file after the scan:
+
+```yaml
+permissions:
+  contents: read
+  security-events: write
+
+steps:
+  - uses: actions/checkout@v4
+  - id: hardening
+    uses: OssaBellator/ai-agent-hardening@v1
+  - uses: github/codeql-action/upload-sarif@v3
+    with:
+      sarif_file: ${{ steps.hardening.outputs.sarif-file }}
+```
+
+This elevated permission belongs to the caller workflow, not to the scanner itself.
+
 ## MCP security checklist
 
 If you use MCP servers with coding agents, the [MCP Security Checklist](https://ossabellator.github.io/ai-agent-hardening/mcp-security-checklist.html) covers least privilege, tool/schema trust, sandboxing, confirmations, credential boundaries, and privileged GitHub Actions triggers with primary-source references.
