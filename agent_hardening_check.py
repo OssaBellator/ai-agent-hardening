@@ -46,6 +46,10 @@ SECRET_PATTERNS = {
     "github-token": re.compile(r"\b(?:ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})\b"),
     "aws-access-key": re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
     "stripe-secret-key": re.compile(r"\b(?:sk|rk)_(?:live|test)_[A-Za-z0-9]{12,}\b"),
+    "openai-api-key": re.compile(r"\bsk-(?:proj|svcacct)-[A-Za-z0-9_-]{20,}\b"),
+    "anthropic-api-key": re.compile(r"\bsk-ant-[A-Za-z0-9_-]{20,}\b"),
+    "google-api-key": re.compile(r"\bAIza[0-9A-Za-z_-]{35}\b"),
+    "slack-token": re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{20,}\b"),
 }
 AUTHORITY_PATTERNS = {
     "agent-permission-bypass": re.compile(r"dangerously[-_]skip[-_]permissions|--dangerously-skip-permissions", re.I),
@@ -70,6 +74,8 @@ def rel(root: Path, path: Path) -> str:
 
 def iter_files(root: Path) -> Iterable[Path]:
     for path in root.rglob("*"):
+        if path.is_symlink():
+            continue
         if not path.is_file():
             continue
         if path.name in SELF_FILES:
@@ -176,6 +182,19 @@ def scan(root: Path) -> dict:
     }
 
 
+def should_fail(report: dict, threshold: str) -> bool:
+    if threshold == "never":
+        return False
+    summary = report["summary"]
+    if threshold == "high":
+        return summary["high"] > 0
+    if threshold == "medium":
+        return summary["high"] > 0 or summary["medium"] > 0
+    if threshold == "any":
+        return summary["total"] > 0
+    raise ValueError(f"unknown failure threshold: {threshold}")
+
+
 def markdown(report: dict) -> str:
     s = report["summary"]
     lines = [
@@ -222,13 +241,19 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Static AI-agent repository hardening scanner")
     parser.add_argument("path", nargs="?", default=".", help="Repository directory")
     parser.add_argument("--format", choices=("json", "markdown"), default="markdown")
+    parser.add_argument(
+        "--fail-on",
+        choices=("never", "high", "medium", "any"),
+        default="never",
+        help="Exit 1 when findings meet this severity threshold; default is advisory-only.",
+    )
     args = parser.parse_args()
     root = Path(args.path)
     if not root.is_dir():
         parser.error("path must be a directory")
     report = scan(root)
     print(json.dumps(report, indent=2) if args.format == "json" else markdown(report), end="")
-    return 0
+    return 1 if should_fail(report, args.fail_on) else 0
 
 
 if __name__ == "__main__":
