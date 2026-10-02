@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Free static AI coding agent repository hardening scanner. Inventory agent instructions, MCP config, CI authority and credential-pattern risks without executing target code.">
+<link rel="canonical" href="https://ossabellator.github.io/ai-agent-hardening/scanner.html">
+<title>Free AI Coding Agent Repository Hardening Scanner</title>
+<style>:root{color-scheme:light dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif}body{max-width:780px;margin:0 auto;padding:48px 20px;line-height:1.65}h1{font-size:clamp(2rem,6vw,3.3rem);line-height:1.08}.cta{display:inline-block;padding:12px 18px;border:1px solid currentColor;border-radius:8px;text-decoration:none;font-weight:700}.card{border:1px solid color-mix(in srgb,currentColor 25%,transparent);border-radius:12px;padding:20px;margin:24px 0}code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}pre{overflow:auto;padding:16px;border:1px solid color-mix(in srgb,currentColor 25%,transparent);border-radius:10px}</style>
+</head>
+<body>
+<p><a href="./">← AI Agent Setup & Hardening</a></p>
+<h1>Free AI Agent Repository Hardening Scanner</h1>
+<p>A dependency-free static scanner for repositories used with coding agents, MCP tools, CI automation, or other AI-assisted development workflows.</p>
+
+<div class="card">
+<h2>Run locally</h2>
+<pre><code>python agent_hardening_check.py /path/to/repository</code></pre>
+<p><a class="cta" href="https://github.com/OssaBellator/ai-agent-hardening/blob/v1/agent_hardening_check.py">View scanner source</a></p>
+</div>
+
+<h2>Use as a GitHub Action</h2>
+<pre><code>- uses: OssaBellator/ai-agent-hardening@v1</code></pre>
+<p>The action requires only <code>contents: read</code>.</p>
+
+<h2>What it checks</h2>
+<ul>
+<li>common agent instruction/rules files;</li>
+<li>MCP configuration files;</li>
+<li>GitHub Actions workflow presence and selected high-authority patterns;</li>
+<li>dependency/package manifests;</li>
+<li>a small set of common credential/private-key patterns, reported by path and pattern class without printing the suspected value;</li>
+<li>selected permission-bypass and workflow-authority signals.</li>
+</ul>
+
+<h2>What it does not do</h2>
+<p>The scanner never executes target repository code, installs target dependencies, authenticates to customer systems, or claims that an absence of matches means a repository is secure. It is a triage tool, not penetration testing or a security certification.</p>
+
+<h2>Want human review?</h2>
+<p>The <a href="./audit.html">A$39 public-repository audit</a> reviews the repository evidence in context and produces prioritized findings and remediation steps. If you need fixes implemented or a private-repository engagement, see the <a href="./">A$149 hardening service</a>.</p>
+</body></html>
