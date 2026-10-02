@@ -22,6 +22,7 @@ from agent_hardening_check import (
     AUTHORITY_PATTERNS,
     MCP_NAMES,
     SECRET_PATTERNS,
+    SELF_FILES,
     TEXT_SUFFIXES,
     Finding,
     line_number,
@@ -63,6 +64,8 @@ def extract_repo(body: str) -> tuple[str, str]:
 def is_candidate(path: str) -> bool:
     p = path.replace("\\", "/")
     name = p.rsplit("/", 1)[-1]
+    if name in SELF_FILES:
+        return False
     suffix = "." + name.rsplit(".", 1)[-1].lower() if "." in name else ""
     return (
         p in AGENT_SURFACES
