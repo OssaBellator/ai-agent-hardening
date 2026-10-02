@@ -77,7 +77,7 @@ steps:
   - uses: OssaBellator/ai-agent-hardening@v1
 ```
 
-For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@043ab012b6041d7a6af6b9d64b989a2dca78b36f`.
+For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@ee1b22221eaac9fe62d2082c0a898dfbfd15bb05`.
 
 The action requires only `contents: read`; it runs the dependency-free scanner against the checked-out repository and writes the Markdown result to the GitHub Actions job summary. By default it is advisory-only. To make high-severity findings fail CI, configure:
 
