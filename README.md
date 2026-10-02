@@ -53,6 +53,13 @@ Run a dependency-free, evidence-only scan locally:
 python agent_hardening_check.py /path/to/repository
 ```
 
+Or install the verified v1.1.0 wheel directly from the GitHub release:
+
+```bash
+pip install https://github.com/OssaBellator/ai-agent-hardening/releases/download/v1.1.0/ai_agent_repository_hardening-1.1.0-py3-none-any.whl
+ai-agent-hardening /path/to/repository
+```
+
 It inventories common agent/MCP/CI/dependency surfaces and flags a small set of high-signal configuration/credential patterns. It **does not execute target code, install dependencies, or print suspected secret values**. The scanner is a triage aid, not a security certification.
 
 You can also [request a free public-repository scan](https://github.com/OssaBellator/ai-agent-hardening/issues/new?template=free-scan.yml) without installing anything. The hosted scan uses bounded GitHub API reads only and posts non-secret findings back to the issue.
@@ -70,7 +77,7 @@ steps:
   - uses: OssaBellator/ai-agent-hardening@v1
 ```
 
-For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@1a0d122402d3fc9651371a390fe723e4bd2b4efa`.
+For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@043ab012b6041d7a6af6b9d64b989a2dca78b36f`.
 
 The action requires only `contents: read`; it runs the dependency-free scanner against the checked-out repository and writes the Markdown result to the GitHub Actions job summary. By default it is advisory-only. To make high-severity findings fail CI, configure:
 
