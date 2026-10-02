@@ -53,6 +53,34 @@ class FreeScanTests(unittest.TestCase):
         self.assertIn("stripe-secret-key", kinds)
         self.assertNotIn("sk_live_" + "A" * 24, json.dumps(report))
 
+    def test_markdown_path_escapes_untrusted_filename(self):
+        hostile = "docs/`break`\n@someone.md"
+        escaped = free.markdown_path(hostile)
+        self.assertNotIn("\n", escaped)
+        self.assertNotIn("`", escaped)
+        self.assertIn("ˋbreakˋ", escaped)
+
+    def test_render_respects_bounded_inventory(self):
+        report = {
+            "target": "https://github.com/acme/demo",
+            "commit_sha": "abcdef1234567890",
+            "files_scanned": 1,
+            "candidate_files_omitted": 0,
+            "inventory": {
+                "agent_instruction_files": ["safe.md"],
+                "mcp_config_files": [],
+                "workflow_files": [],
+                "dependency_manifests": [],
+            },
+            "findings": [],
+            "summary": {"high": 0, "medium": 0, "total": 0},
+        }
+        rendered = free.render(report)
+        self.assertIn("No configured static patterns matched", rendered)
+        self.assertIn("A$39", rendered)
+        self.assertIn("https://buy.stripe.com/eVq14h2jW92678b63T04802", rendered)
+        self.assertIn("free scan above remains yours", rendered)
+
     def test_private_repo_rejected(self):
         with patch.object(free, "api_get", return_value={"private": True, "size": 1, "default_branch": "main"}):
             with self.assertRaises(ValueError):
