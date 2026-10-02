@@ -5,7 +5,7 @@
 A fixed-scope repository hardening service for developers using AI coding agents.
 
 **Price:** A$149 one-time  
-**Checkout:** https://buy.stripe.com/9B600d9Mocei2RV8c104801
+**Checkout:** https://buy.stripe.com/9B600d9Mocei2RV8c104801?client_reference_id=github_readme_hardening
 
 ## What this is
 
@@ -137,7 +137,7 @@ Use the public [AI Coding Agent Repository Hardening Checklist](https://ossabell
 
 Open a **Service intake / question** issue in this repository. Do not include passwords, API keys, private keys, recovery phrases, customer data, or other secrets.
 
-**Buy the service:** https://buy.stripe.com/9B600d9Mocei2RV8c104801
+**Buy the service:** https://buy.stripe.com/9B600d9Mocei2RV8c104801?client_reference_id=github_readme_hardening
 
 ## License
 
