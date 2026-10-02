@@ -18,3 +18,13 @@ jobs:
         uses: ./
         with:
           path: .
+      - name: Validate SARIF artifact
+        run: |
+          test -s agent-hardening-scan.sarif
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("agent-hardening-scan.sarif").read_text())
+          assert data["version"] == "2.1.0"
+          assert isinstance(data["runs"], list) and data["runs"]
+          PY
