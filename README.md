@@ -43,6 +43,16 @@ If you only want an evidence-backed review of one **public GitHub repository**, 
 
 A [sample audit report](./sample-audit.md) shows the finding format, evidence standard, and limitations.
 
+## Free static scanner
+
+Run a dependency-free, evidence-only scan locally:
+
+```bash
+python agent_hardening_check.py /path/to/repository
+```
+
+It inventories common agent/MCP/CI/dependency surfaces and flags a small set of high-signal configuration/credential patterns. It **does not execute target code, install dependencies, or print suspected secret values**. The scanner is a triage aid, not a security certification.
+
 ## Free checklist
 
 Use the public [AI Coding Agent Repository Hardening Checklist](https://ossabellator.github.io/ai-agent-hardening/checklist.html) before buying. It covers secrets, tool authority, recovery, verification, and irreversible actions.
