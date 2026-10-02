@@ -37,6 +37,10 @@ This service is a good fit when you already use tools such as coding agents, MCP
 
 It is not a fit if you need emergency incident response, credential recovery, malware removal, or custody of private keys/recovery phrases.
 
+## Lower-cost public-repo audit
+
+If you only want an evidence-backed review of one **public GitHub repository**, the [A$39 repository hardening audit](https://ossabellator.github.io/ai-agent-hardening/audit.html) covers agent/tool surfaces, visible credential risks, authority boundaries, recovery signals, and prioritized remediation without implementing changes.
+
 ## Free checklist
 
 Use the public [AI Coding Agent Repository Hardening Checklist](https://ossabellator.github.io/ai-agent-hardening/checklist.html) before buying. It covers secrets, tool authority, recovery, verification, and irreversible actions.
