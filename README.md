@@ -55,6 +55,8 @@ python agent_hardening_check.py /path/to/repository
 
 It inventories common agent/MCP/CI/dependency surfaces and flags a small set of high-signal configuration/credential patterns. It **does not execute target code, install dependencies, or print suspected secret values**. The scanner is a triage aid, not a security certification.
 
+You can also [request a free public-repository scan](https://github.com/OssaBellator/ai-agent-hardening/issues/new?template=free-scan.yml) without installing anything. The hosted scan uses bounded GitHub API reads only and posts non-secret findings back to the issue.
+
 ## GitHub Action
 
 Add the same static scan to CI after checkout:
