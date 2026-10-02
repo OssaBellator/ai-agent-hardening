@@ -1,0 +1,26 @@
+name: Free public-repository scan
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  scan:
+    if: contains(github.event.issue.labels.*.name, 'free-scan')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Generate bounded static scan
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python free_scan_issue.py "$GITHUB_EVENT_PATH" > scan-comment.md
+      - name: Comment scan result
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue comment "${{ github.event.issue.number }}" --repo "$GITHUB_REPOSITORY" --body-file scan-comment.md
