@@ -41,6 +41,8 @@ It is not a fit if you need emergency incident response, credential recovery, ma
 
 If you only want an evidence-backed review of one **public GitHub repository**, the [A$39 repository hardening audit](https://ossabellator.github.io/ai-agent-hardening/audit.html) covers agent/tool surfaces, visible credential risks, authority boundaries, recovery signals, and prioritized remediation without implementing changes.
 
+A [sample audit report](./sample-audit.md) shows the finding format, evidence standard, and limitations.
+
 ## Free checklist
 
 Use the public [AI Coding Agent Repository Hardening Checklist](https://ossabellator.github.io/ai-agent-hardening/checklist.html) before buying. It covers secrets, tool authority, recovery, verification, and irreversible actions.
