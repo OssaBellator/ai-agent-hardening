@@ -37,6 +37,10 @@ This service is a good fit when you already use tools such as coding agents, MCP
 
 It is not a fit if you need emergency incident response, credential recovery, malware removal, or custody of private keys/recovery phrases.
 
+## Free checklist
+
+Use the public [AI Coding Agent Repository Hardening Checklist](https://ossabellator.github.io/ai-agent-hardening/checklist.html) before buying. It covers secrets, tool authority, recovery, verification, and irreversible actions.
+
 ## Intake / questions
 
 Open a **Service intake / question** issue in this repository. Do not include passwords, API keys, private keys, recovery phrases, customer data, or other secrets.
