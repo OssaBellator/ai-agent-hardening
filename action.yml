@@ -1,0 +1,21 @@
+name: "AI Agent Repository Hardening Scan"
+description: "Static, evidence-only scan for common AI-agent, MCP, CI authority, and credential-pattern risks."
+author: "OssaBellator"
+branding:
+  icon: "shield"
+  color: "blue"
+inputs:
+  path:
+    description: "Repository path to scan."
+    required: false
+    default: "."
+runs:
+  using: "composite"
+  steps:
+    - name: Run static hardening scan
+      shell: bash
+      run: |
+        python "$GITHUB_ACTION_PATH/agent_hardening_check.py" "${{ inputs.path }}" --format markdown | tee agent-hardening-scan.md
+        if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+          cat agent-hardening-scan.md >> "$GITHUB_STEP_SUMMARY"
+        fi
