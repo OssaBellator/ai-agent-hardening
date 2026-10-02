@@ -58,7 +58,7 @@ It inventories common agent/MCP/CI/dependency surfaces and flags a small set of 
 Add the same static scan to CI:
 
 ```yaml
-- uses: OssaBellator/ai-agent-hardening@main
+- uses: OssaBellator/ai-agent-hardening@v1
 ```
 
 The action requires only `contents: read`; it runs the dependency-free scanner against the checked-out repository and writes the Markdown result to the GitHub Actions job summary. See [example-workflow.yml](./example-workflow.yml).
