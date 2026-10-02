@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Unit tests
-        run: python -m unittest -v test_agent_hardening_check.py
+        run: python -m unittest -v test_agent_hardening_check.py test_free_scan_issue.py
       - name: Run local action
         uses: ./
         with:
