@@ -1,0 +1,37 @@
+name: Free public-repository scan
+description: Request a bounded static scan of one public GitHub repository.
+title: "[Free scan] "
+labels:
+  - free-scan
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This free scan uses public GitHub repository data only. It does not execute repository code, install dependencies, or require credentials.
+  - type: input
+    id: repository_url
+    attributes:
+      label: Public GitHub repository URL
+      description: Example: https://github.com/owner/repository
+      placeholder: https://github.com/owner/repository
+    validations:
+      required: true
+  - type: dropdown
+    id: focus
+    attributes:
+      label: Main concern
+      options:
+        - Agent instruction / rules files
+        - MCP or tool configuration
+        - Credentials / secret exposure
+        - CI / automation authority
+        - General repository hardening
+    validations:
+      required: true
+  - type: checkboxes
+    id: acknowledgement
+    attributes:
+      label: Safety acknowledgement
+      options:
+        - label: I will not post passwords, API keys, private keys, recovery phrases, customer data, or other secrets in this issue.
+          required: true
