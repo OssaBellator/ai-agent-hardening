@@ -14,8 +14,10 @@ runs:
   steps:
     - name: Run static hardening scan
       shell: bash
+      env:
+        AI_AGENT_HARDENING_SCAN_PATH: ${{ inputs.path }}
       run: |
-        python "$GITHUB_ACTION_PATH/agent_hardening_check.py" "${{ inputs.path }}" --format markdown | tee agent-hardening-scan.md
+        python "$GITHUB_ACTION_PATH/agent_hardening_check.py" "$AI_AGENT_HARDENING_SCAN_PATH" --format markdown | tee agent-hardening-scan.md
         if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
           cat agent-hardening-scan.md >> "$GITHUB_STEP_SUMMARY"
         fi
