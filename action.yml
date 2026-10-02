@@ -9,6 +9,10 @@ inputs:
     description: "Repository path to scan."
     required: false
     default: "."
+  fail-on:
+    description: "Fail the step at this finding threshold: never, high, medium, or any."
+    required: false
+    default: "never"
 runs:
   using: "composite"
   steps:
@@ -16,8 +20,9 @@ runs:
       shell: bash
       env:
         AI_AGENT_HARDENING_SCAN_PATH: ${{ inputs.path }}
+        AI_AGENT_HARDENING_FAIL_ON: ${{ inputs.fail-on }}
       run: |
-        python "$GITHUB_ACTION_PATH/agent_hardening_check.py" "$AI_AGENT_HARDENING_SCAN_PATH" --format markdown | tee agent-hardening-scan.md
+        python "$GITHUB_ACTION_PATH/agent_hardening_check.py" "$AI_AGENT_HARDENING_SCAN_PATH" --format markdown --fail-on "$AI_AGENT_HARDENING_FAIL_ON" | tee agent-hardening-scan.md
         if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
           cat agent-hardening-scan.md >> "$GITHUB_STEP_SUMMARY"
         fi
