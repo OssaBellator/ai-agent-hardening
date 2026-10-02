@@ -68,9 +68,17 @@ steps:
   - uses: OssaBellator/ai-agent-hardening@v1
 ```
 
-For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@021cc27747374b08e1f595e2fe8545f32dd2afec`.
+For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@1a0d122402d3fc9651371a390fe723e4bd2b4efa`.
 
-The action requires only `contents: read`; it runs the dependency-free scanner against the checked-out repository and writes the Markdown result to the GitHub Actions job summary. See [example-workflow.yml](./example-workflow.yml).
+The action requires only `contents: read`; it runs the dependency-free scanner against the checked-out repository and writes the Markdown result to the GitHub Actions job summary. By default it is advisory-only. To make high-severity findings fail CI, configure:
+
+```yaml
+- uses: OssaBellator/ai-agent-hardening@v1
+  with:
+    fail-on: high
+```
+
+Accepted thresholds are `never` (default), `high`, `medium`, and `any`. See [example-workflow.yml](./example-workflow.yml).
 
 ## Free checklist
 
