@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ossabellator.github.io/ai-agent-hardening/sitemap.xml
