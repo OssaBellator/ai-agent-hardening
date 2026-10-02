@@ -47,6 +47,30 @@ class ScannerTests(unittest.TestCase):
             report = scanner.scan(root)
             self.assertEqual(report["summary"]["total"], 0)
 
+
+    def test_fail_thresholds(self):
+        report = {
+            "summary": {"high": 1, "medium": 0, "low": 0, "total": 1}
+        }
+        self.assertFalse(scanner.should_fail(report, "never"))
+        self.assertTrue(scanner.should_fail(report, "high"))
+        self.assertTrue(scanner.should_fail(report, "medium"))
+        self.assertTrue(scanner.should_fail(report, "any"))
+
+    def test_skips_symlinked_files(self):
+        with tempfile.TemporaryDirectory() as td, tempfile.TemporaryDirectory() as outside:
+            root = Path(td)
+            target = Path(outside) / "secret.txt"
+            token = "sk_live_" + "C" * 24
+            target.write_text(token, encoding="utf-8")
+            link = root / "linked-secret.txt"
+            try:
+                link.symlink_to(target)
+            except OSError:
+                self.skipTest("symlink creation is not available in this environment")
+            report = scanner.scan(root)
+            self.assertEqual(report["summary"]["total"], 0)
+
     def test_markdown_contains_cta_and_limitations(self):
         with tempfile.TemporaryDirectory() as td:
             report = scanner.scan(Path(td))
