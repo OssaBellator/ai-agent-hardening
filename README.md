@@ -45,6 +45,10 @@ If you only want an evidence-backed review of one **public GitHub repository**, 
 
 A [sample audit report](./sample-audit.md) shows the finding format, evidence standard, and limitations.
 
+## Ongoing 60-day watch
+
+If a public repository is changing quickly and a one-time audit will age out, the [A$79 60-day hardening watch](https://ossabellator.github.io/claude-code-mcp-hardening/watch.html) provides a baseline plus day-30 and day-60 read-only reports. Payment is one-time, and follow-up reports are delivered through one GitHub issue after private payment verification.
+
 ## Free static scanner
 
 Run a dependency-free, evidence-only scan locally:
@@ -53,10 +57,10 @@ Run a dependency-free, evidence-only scan locally:
 python agent_hardening_check.py /path/to/repository
 ```
 
-Or install the verified v1.1.0 wheel directly from the GitHub release:
+Or install the verified v1.1.1 wheel directly from the GitHub release:
 
 ```bash
-pip install https://github.com/OssaBellator/ai-agent-hardening/releases/download/v1.1.0/ai_agent_repository_hardening-1.1.0-py3-none-any.whl
+pip install https://github.com/OssaBellator/ai-agent-hardening/releases/download/v1.1.1/ai_agent_repository_hardening-1.1.1-py3-none-any.whl
 ai-agent-hardening /path/to/repository
 ```
 
@@ -86,7 +90,7 @@ steps:
   - uses: OssaBellator/ai-agent-hardening@v1
 ```
 
-For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@ee1b22221eaac9fe62d2082c0a898dfbfd15bb05`.
+For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@7c257db44232e61e944870e3af18c4e87fa51921`.
 
 The action requires only `contents: read`; it runs the dependency-free scanner against the checked-out repository and writes the Markdown result to the GitHub Actions job summary. By default it is advisory-only. To make high-severity findings fail CI, configure:
 
