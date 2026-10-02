@@ -195,6 +195,67 @@ def should_fail(report: dict, threshold: str) -> bool:
     raise ValueError(f"unknown failure threshold: {threshold}")
 
 
+
+def sarif(report: dict) -> dict:
+    """Return SARIF 2.1.0 for GitHub Code Scanning or other SARIF consumers."""
+    rule_meta = {
+        "private-key": ("Private key material in tracked text", "error"),
+        "github-token": ("GitHub token pattern in tracked text", "error"),
+        "aws-access-key": ("AWS access key pattern in tracked text", "error"),
+        "stripe-secret-key": ("Stripe secret key pattern in tracked text", "error"),
+        "openai-api-key": ("OpenAI API key pattern in tracked text", "error"),
+        "anthropic-api-key": ("Anthropic API key pattern in tracked text", "error"),
+        "google-api-key": ("Google API key pattern in tracked text", "error"),
+        "slack-token": ("Slack token pattern in tracked text", "error"),
+        "agent-permission-bypass": ("AI agent permission bypass configuration", "error"),
+        "workflow-write-all": ("GitHub Actions write-all permissions", "warning"),
+        "pull-request-target": ("GitHub Actions pull_request_target trigger", "warning"),
+    }
+    seen = sorted({f["kind"] for f in report["findings"]})
+    rules = []
+    for kind in seen:
+        title, level = rule_meta.get(kind, (kind.replace("-", " ").title(), "warning"))
+        rules.append({
+            "id": kind,
+            "name": kind.replace("-", "_"),
+            "shortDescription": {"text": title},
+            "defaultConfiguration": {"level": level},
+            "helpUri": "https://ossabellator.github.io/ai-agent-hardening/scanner.html",
+        })
+
+    results = []
+    for finding in report["findings"]:
+        _, level = rule_meta.get(finding["kind"], (finding["kind"], "warning"))
+        region = {}
+        if finding["line"]:
+            region["startLine"] = finding["line"]
+        results.append({
+            "ruleId": finding["kind"],
+            "level": level,
+            "message": {"text": f"{finding['evidence']} {finding['recommendation']}"},
+            "locations": [{
+                "physicalLocation": {
+                    "artifactLocation": {"uri": finding["path"]},
+                    **({"region": region} if region else {}),
+                }
+            }],
+        })
+
+    return {
+        "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+        "version": "2.1.0",
+        "runs": [{
+            "tool": {
+                "driver": {
+                    "name": "AI Agent Repository Hardening Scanner",
+                    "informationUri": "https://github.com/OssaBellator/ai-agent-hardening",
+                    "rules": rules,
+                }
+            },
+            "results": results,
+        }],
+    }
+
 def markdown(report: dict) -> str:
     s = report["summary"]
     lines = [
@@ -240,7 +301,7 @@ def markdown(report: dict) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Static AI-agent repository hardening scanner")
     parser.add_argument("path", nargs="?", default=".", help="Repository directory")
-    parser.add_argument("--format", choices=("json", "markdown"), default="markdown")
+    parser.add_argument("--format", choices=("json", "markdown", "sarif"), default="markdown")
     parser.add_argument(
         "--fail-on",
         choices=("never", "high", "medium", "any"),
@@ -252,7 +313,13 @@ def main() -> int:
     if not root.is_dir():
         parser.error("path must be a directory")
     report = scan(root)
-    print(json.dumps(report, indent=2) if args.format == "json" else markdown(report), end="")
+    if args.format == "json":
+        output = json.dumps(report, indent=2)
+    elif args.format == "sarif":
+        output = json.dumps(sarif(report), indent=2)
+    else:
+        output = markdown(report)
+    print(output, end="" if output.endswith("\n") else "\n")
     return 1 if should_fail(report, args.fail_on) else 0
 
 
