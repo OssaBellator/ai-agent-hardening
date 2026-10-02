@@ -28,11 +28,11 @@ from agent_hardening_check import (
     line_number,
 )
 
-MAX_REPO_KB = 100_000
-MAX_FILES = 200
-MAX_FILE_BYTES = 512 * 1024
-MAX_FINDINGS = 30
-MAX_INVENTORY_ITEMS = 30
+MAX_REPO_KB = 25_000
+MAX_FILES = 60
+MAX_FILE_BYTES = 256 * 1024
+MAX_FINDINGS = 20
+MAX_INVENTORY_ITEMS = 20
 USER_AGENT = "ai-agent-hardening-free-scan/1"
 
 REPO_URL = re.compile(
@@ -82,6 +82,11 @@ def is_candidate(path: str) -> bool:
         }
         or suffix in TEXT_SUFFIXES
     )
+
+
+def markdown_path(path: str) -> str:
+    """Make an untrusted Git path safe inside inline-code Markdown."""
+    return path.replace("\r", " ").replace("\n", " ").replace("\t", " ").replace("`", "ˋ")
 
 
 def priority(path: str) -> tuple[int, str]:
@@ -229,7 +234,7 @@ def render(report: dict[str, Any]) -> str:
         label = key.replace("_", " ").title()
         lines.append(f"- **{label}:** {len(values)}")
         for value in values[:MAX_INVENTORY_ITEMS]:
-            lines.append(f"  - `{value}`")
+            lines.append(f"  - `{markdown_path(value)}`")
         if len(values) > MAX_INVENTORY_ITEMS:
             lines.append(f"  - … {len(values) - MAX_INVENTORY_ITEMS} more")
 
@@ -237,7 +242,7 @@ def render(report: dict[str, Any]) -> str:
     if not report["findings"]:
         lines.append("No configured static patterns matched in the bounded scan. This does **not** mean the repository is secure.")
     for finding in report["findings"]:
-        loc = f"`{finding['path']}`" + (f":{finding['line']}" if finding["line"] else "")
+        loc = f"`{markdown_path(finding['path'])}`" + (f":{finding['line']}" if finding["line"] else "")
         lines += [
             "",
             f"**{finding['severity'].upper()} — {finding['kind']}**",
@@ -254,8 +259,10 @@ def render(report: dict[str, Any]) -> str:
         "- Pattern matches are review signals, not proof of exploitability or compromise.",
         "- No suspected credential value is printed.",
         "",
-        "**Need contextual review?** The A$39 human-reviewed public-repository audit adds evidence interpretation and prioritized remediation:",
-        "https://ossabellator.github.io/ai-agent-hardening/audit.html",
+        "**Need contextual review?** The A$39 human-reviewed public-repository audit adds evidence interpretation and prioritized remediation. The free scan above remains yours whether or not you buy anything.",
+        "",
+        "- Audit details and sample report: https://ossabellator.github.io/ai-agent-hardening/audit.html",
+        "- Buy the A$39 audit: https://buy.stripe.com/eVq14h2jW92678b63T04802",
     ]
     return "\n".join(lines) + "\n"
 
