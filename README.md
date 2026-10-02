@@ -82,6 +82,10 @@ The action requires only `contents: read`; it runs the dependency-free scanner a
 
 Accepted thresholds are `never` (default), `high`, `medium`, and `any`. See [example-workflow.yml](./example-workflow.yml).
 
+## MCP security checklist
+
+If you use MCP servers with coding agents, the [MCP Security Checklist](https://ossabellator.github.io/ai-agent-hardening/mcp-security-checklist.html) covers least privilege, tool/schema trust, sandboxing, confirmations, credential boundaries, and privileged GitHub Actions triggers with primary-source references.
+
 ## Free checklist
 
 Use the public [AI Coding Agent Repository Hardening Checklist](https://ossabellator.github.io/ai-agent-hardening/checklist.html) before buying. It covers secrets, tool authority, recovery, verification, and irreversible actions.
