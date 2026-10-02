@@ -64,6 +64,15 @@ It inventories common agent/MCP/CI/dependency surfaces and flags a small set of 
 
 You can also [request a free public-repository scan](https://github.com/OssaBellator/ai-agent-hardening/issues/new?template=free-scan.yml) without installing anything. The hosted scan uses bounded GitHub API reads only and posts non-secret findings back to the issue.
 
+## Install from the GitHub release
+
+The scanner is also packaged as a dependency-free Python wheel. Until a PyPI publishing credential is configured, install the immutable GitHub Release asset directly:
+
+```bash
+python -m pip install https://github.com/OssaBellator/ai-agent-hardening/releases/download/v1.1.1/ai_agent_repository_hardening-1.1.1-py3-none-any.whl
+ai-agent-hardening . --format markdown
+```
+
 ## GitHub Action
 
 Add the same static scan to CI after checkout:
