@@ -71,6 +71,20 @@ class ScannerTests(unittest.TestCase):
             report = scanner.scan(root)
             self.assertEqual(report["summary"]["total"], 0)
 
+
+    def test_sarif_never_echoes_secret_value(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            token = "sk_live_" + "D" * 24
+            (root / "settings.env").write_text("KEY=" + token, encoding="utf-8")
+            report = scanner.scan(root)
+            sarif = scanner.sarif(report)
+            encoded = json.dumps(sarif)
+            self.assertEqual(sarif["version"], "2.1.0")
+            self.assertIn("stripe-secret-key", encoded)
+            self.assertIn("settings.env", encoded)
+            self.assertNotIn(token, encoded)
+
     def test_markdown_contains_cta_and_limitations(self):
         with tempfile.TemporaryDirectory() as td:
             report = scanner.scan(Path(td))
