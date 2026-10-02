@@ -53,6 +53,16 @@ python agent_hardening_check.py /path/to/repository
 
 It inventories common agent/MCP/CI/dependency surfaces and flags a small set of high-signal configuration/credential patterns. It **does not execute target code, install dependencies, or print suspected secret values**. The scanner is a triage aid, not a security certification.
 
+## GitHub Action
+
+Add the same static scan to CI:
+
+```yaml
+- uses: OssaBellator/ai-agent-hardening@main
+```
+
+The action requires only `contents: read`; it runs the dependency-free scanner against the checked-out repository and writes the Markdown result to the GitHub Actions job summary. See [example-workflow.yml](./example-workflow.yml).
+
 ## Free checklist
 
 Use the public [AI Coding Agent Repository Hardening Checklist](https://ossabellator.github.io/ai-agent-hardening/checklist.html) before buying. It covers secrets, tool authority, recovery, verification, and irreversible actions.
