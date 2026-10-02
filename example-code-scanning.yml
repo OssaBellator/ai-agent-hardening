@@ -1,0 +1,20 @@
+name: AI Agent Hardening Scan with Code Scanning
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  hardening-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: hardening
+        uses: OssaBellator/ai-agent-hardening@v1
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.hardening.outputs.sarif-file }}
