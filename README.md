@@ -72,3 +72,7 @@ Use the public [AI Coding Agent Repository Hardening Checklist](https://ossabell
 Open a **Service intake / question** issue in this repository. Do not include passwords, API keys, private keys, recovery phrases, customer data, or other secrets.
 
 **Buy the service:** https://buy.stripe.com/9B600d9Mocei2RV8c104801
+
+## License
+
+The scanner, GitHub Action, checklist, sample report, and repository documentation are released under the [MIT License](./LICENSE).
