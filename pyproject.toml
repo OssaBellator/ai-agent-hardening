@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-agent-repository-hardening"
+version = "1.1.0"
+description = "Dependency-free static scanner for AI-agent repository configuration, MCP surfaces, CI authority signals, and credential patterns."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "OssaBellator" }]
+keywords = ["ai-agents", "mcp", "security", "static-analysis", "github-actions"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Security",
+  "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://ossabellator.github.io/ai-agent-hardening/"
+Repository = "https://github.com/OssaBellator/ai-agent-hardening"
+Issues = "https://github.com/OssaBellator/ai-agent-hardening/issues"
+
+[project.scripts]
+ai-agent-hardening = "agent_hardening_check:main"
+
+[tool.setuptools]
+py-modules = ["agent_hardening_check"]
