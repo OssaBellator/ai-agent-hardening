@@ -1,5 +1,7 @@
 # AI Agent Setup & Hardening — A$149
 
+[![Self-test](https://github.com/OssaBellator/ai-agent-hardening/actions/workflows/self-test.yml/badge.svg)](https://github.com/OssaBellator/ai-agent-hardening/actions/workflows/self-test.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 A fixed-scope repository hardening service for developers using AI coding agents.
 
 **Price:** A$149 one-time  
@@ -55,11 +57,18 @@ It inventories common agent/MCP/CI/dependency surfaces and flags a small set of 
 
 ## GitHub Action
 
-Add the same static scan to CI:
+Add the same static scan to CI after checkout:
 
 ```yaml
-- uses: OssaBellator/ai-agent-hardening@v1
+permissions:
+  contents: read
+
+steps:
+  - uses: actions/checkout@v4
+  - uses: OssaBellator/ai-agent-hardening@v1
 ```
+
+For a fully pinned dependency, use the current release commit instead of the moving major tag: `OssaBellator/ai-agent-hardening@021cc27747374b08e1f595e2fe8545f32dd2afec`.
 
 The action requires only `contents: read`; it runs the dependency-free scanner against the checked-out repository and writes the Markdown result to the GitHub Actions job summary. See [example-workflow.yml](./example-workflow.yml).
 
