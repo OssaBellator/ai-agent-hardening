@@ -19,8 +19,15 @@
 </div>
 
 <h2>Use as a GitHub Action</h2>
-<pre><code>- uses: OssaBellator/ai-agent-hardening@v1</code></pre>
-<p>The action requires only <code>contents: read</code>.</p>
+<pre><code>permissions:
+  contents: read
+
+steps:
+  - uses: actions/checkout@v4
+  - uses: OssaBellator/ai-agent-hardening@v1
+    with:
+      fail-on: high</code></pre>
+<p>The action requires only <code>contents: read</code>. Omit <code>fail-on</code> for advisory-only behavior, or choose <code>high</code>, <code>medium</code>, or <code>any</code> to fail CI at that threshold.</p>
 
 <h2>What it checks</h2>
 <ul>
