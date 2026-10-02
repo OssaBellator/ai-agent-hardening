@@ -12,7 +12,8 @@ Do not include passwords, API keys, private keys, recovery phrases, customer dat
 
 ## What do you need?
 
-- [ ] I have purchased the A$149 service and want to start intake.
+- [ ] I purchased the A$39 public-repository audit and want issue-based delivery.
+- [ ] I purchased the A$149 hardening service and want to start intake.
 - [ ] I have a question before purchasing.
 
 ## Repository / stack
