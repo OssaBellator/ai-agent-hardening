@@ -9,6 +9,10 @@ import free_scan_issue as free
 
 
 class FreeScanTests(unittest.TestCase):
+    def test_scanner_files_are_not_remote_candidates(self):
+        self.assertFalse(free.is_candidate("agent_hardening_check.py"))
+        self.assertFalse(free.is_candidate("test_agent_hardening_check.py"))
+
     def test_extract_repo(self):
         self.assertEqual(
             free.extract_repo("### Public GitHub repository URL\nhttps://github.com/acme/demo\n"),
