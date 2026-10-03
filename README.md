@@ -1,5 +1,7 @@
 # AI Agent Setup & Hardening — A$149
 
+> **Repository role:** this remains the scanner/release compatibility surface used by existing links and upstream directory submissions. The current buyer-facing project, checklist, Agent Skill, and maintained service documentation live at **[claude-code-mcp-hardening](https://github.com/OssaBellator/claude-code-mcp-hardening)**.
+
 [![Self-test](https://github.com/OssaBellator/ai-agent-hardening/actions/workflows/self-test.yml/badge.svg)](https://github.com/OssaBellator/ai-agent-hardening/actions/workflows/self-test.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 A fixed-scope repository hardening service for developers using AI coding agents.
